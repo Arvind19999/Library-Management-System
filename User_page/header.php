@@ -1,7 +1,8 @@
 <?php 
-require_once "../components.php";
-require_once "./connection.php";
-require_once "./header.php";
+// require_once "../components.php";
+// require_once "./connection.php";
+// require_once "./header.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +21,7 @@ require_once "./header.php";
  <!-- Navbar for LMS --> 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" 
 style="border-bottom:3px blue solid;position:fixed; width:100%;">
- <div class="container">
+ <!-- <div class="container"> -->
  <a class="navbar-brand" href="#">
  <img src="../images/LMS_logo.png" class="img_logo" alt="Logo for LMS">
  <em> &nbsp;LMS</em></a>
@@ -29,9 +30,55 @@ style="border-bottom:3px blue solid;position:fixed; width:100%;">
   </button>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+    <?php
+     if(isset($_SESSION["login_user"])){
+      ?>
+
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="#">home</a>
+       </li>
+        <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="./user_books.php">books</a>
+       </li>
+       <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="./feed_back.php">feedback</a>
+       </li>
+      </ul>
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+   <a class="nav-link" href="./student_info.php">
+        <img src ="../images/profile_pic.png" alt="profile picture"
+        style="height:35px;width:35px;border-radius:50%;padding:0px;margin:0px;">
+        </a>
+    </li>
      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
-        <a class="nav-link" href="./index.php">Admin Login</a>
+      <a class="nav-link" href="./logOut.php">logme out</a>
+    </li>
+      </ul>
+    <?php
+    }else
+    {
+      ?>
+      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="../Admin_page/index.php">Admin Login</a>
+       </li>
+        <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="./user_logIn.php">User LogIn</a>
+       </li>
+       <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="./user_signUp.php">User SignUp</a>
+       </li>
+ 
+      </ul>  
+<?php    
+}
+    
+    ?>
+    <!-- <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+     <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+        <a class="nav-link" href="../Admin_page/index.php">Admin Login</a>
       </li>
        <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
         <a class="nav-link" href="../User_page/user_logIn.php">User LogIn</a>
@@ -39,15 +86,10 @@ style="border-bottom:3px blue solid;position:fixed; width:100%;">
       <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
         <a class="nav-link" href="../User_page/User_signUp.php">User SignUp</a>
       </li>
-<?php 
-  // lists("nav-item px-3 my-1","font-size:1.1rem; text-transform: uppercase;","nav-link","index.php","Admin Login");
-  //       lists("nav-item px-3 my-1","font-size:1.1rem; text-transform: uppercase;","nav-link","#","User Login");
-  //       lists("nav-item px-3 my-1","font-size:1.1rem; text-transform: uppercase;","nav-link","#","User SignUp");
-    
-    ?> 
-     </ul>
+
+     </ul> -->
   </div>
- </div>
+ <!-- </div> -->
 </nav>
 
 

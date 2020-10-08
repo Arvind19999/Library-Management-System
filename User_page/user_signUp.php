@@ -25,35 +25,60 @@ inputComponent("name","Enter userName","Name","Enter your name","form-control te
 inputComponent("roll","Roll No.","Roll","Enter your rol no.","form-control text-muted px-4","number","fa fa-lock icon","roll_no");
 inputComponent("number","Phone","Number","Enter your number","form-control text-muted px-4","number","fa fa-phone icon","phone_no");
 inputComponent("email","E-mail","Email","eaxmple@gmail.com","form-control text-muted px-4","email","fa fa-envelope icon","email");
-inputComponent("password","Password","Password","Password","form-control text-muted px-4","password","fa fa-lock icon","password");
+inputComponent("password","Password","Password","Password","form-control text-muted px-4","password","fa fa-lock icon","passwords");
 buttonComponent("btn btn-outline-primary w-100","border-radius:20px;","submit","signUp-btn","signUp-id","SignUp");
+
 ?>
+
 </form>
     </div>
   </div>
   </div>
   <?php
-  $FNAME = $_POST["fname"];
-  $LNAME = $_POST["lname"];
-  $USERNAME = $_POST["username"];
-  $ROLLNO = $_POST["roll_no"];
-  $PHONENO = $_POST["phone_no"];
-  $EMAIL = $_POST["email"];
-  $PASSCODE = $_POST["password"];
 // Clicking on signup button to insert data
   if(isset($_POST["signUp-btn"])){
     // checking for if any field is empty
-  if($FNAME && $LNAME && $USERNAME && $ROLLNO && $PHONENO && $EMAIL && $PASSCODE){
-    $sql = "INSERT INTO students VALUES('$FNAME','$LNAME','$USERNAME','$ROLLNO','$PHONENO','$EMAIL','$PASSCODE')";
-  // if(mysqli_query($con,$sql)){
-  //   echo"data is inserted in table";
-  // }else{
-  //   echo"data is not inserted".mysqli_error($con);
-  // }
+    $FNAME = $_POST["fname"];
+    $LNAME = $_POST["lname"];
+    $USERNAME = $_POST["username"];
+    $ROLLNO = $_POST["roll_no"];
+    $PHONENO = $_POST["phone_no"];
+    $EMAIL = $_POST["email"];
+    $PASSCODE = $_POST["passwords"];
+    $count = 0;
+    $sql = "SELECT userName FROM students";
+    $res = mysqli_query($con,$sql);
+    while($row = mysqli_fetch_assoc($res)){
+     if($row['userName']==$_POST['username']){
+       $count++;
+     }
+      }  //Endingf while loop
+  if($count == 0){
+    // Inserting data in table
+    if($FNAME && $LNAME && $USERNAME && $ROLLNO && $PHONENO && $EMAIL && $PASSCODE){
+    $sql = "INSERT INTO students VALUES('$FNAME','$LNAME','$USERNAME',
+    '$ROLLNO','$PHONENO','$EMAIL','$PASSCODE','profile_pic.png')";
+  if(mysqli_query($con,$sql)){?>
+ <script type="text/javascript">
+ alert("Registration is completed");
+ </script>
+   <?php
   }else{
-    echo"Fill up all the fields";
+    echo"data is not inserted".mysqli_error($con);
   }
-
+  }else{
+   ?>
+   <script>
+   alert("Please fill all the fields");
+   </script>
+   <?php
+  }
+  }else{
+    ?>
+<script>
+alert("userName:-<?php echo$_POST['username'] ?> already exists");
+</script>
+<?php  }
 }
 
 ?>

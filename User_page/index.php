@@ -8,7 +8,7 @@ require_once "../components.php";
   style="font-size:2rem; padding-top:80px;">
   Admin Login Form</h4></div>
     <div class="container p-4 ml-5 adminClass">
-    <form action="" method="">
+    <form action="" method="post">
 
       <?php
     inputComponent("name","Enter userName","Name","userAdmin","form-control text-muted px-4","text","fa fa-user icon","admin_name");
