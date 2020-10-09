@@ -64,6 +64,7 @@ require_once "./connection.php";
 </style>
 <!-- ____________Ending of side navBar styling________________-->
 
+<!-- ____________Code for side navbar ________________-->
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -72,8 +73,8 @@ require_once "./connection.php";
    style="height:100px;
  border-radius:50%;width:100px;margin-left:30px;"><p class="lead ml-5 text-white"><?php echo $_SESSION["login_user"];?></p></a>
   <a class="sideNav p-3 mt-5" href="#">Books</a>
-  <a class="sideNav p-3 " href="#">Issue books</a>
-  <a class="sideNav p-3 " href="#">Return book</a>
+  <a class="sideNav p-3 " href="./book_request.php">Book Request</a>
+  <a class="sideNav p-3 " href="./issue_info.php">issue information</a>
   <a class="sideNav p-3 " href="#">Fines</a>
 </div>
 
@@ -84,6 +85,7 @@ require_once "./connection.php";
   
 <!-- ____________Starting of books page________________-->
 <div class="search-form" style="padding-top:15px;">
+<!-- ____________For Searching________________-->
 <form action="user_books.php" method="post">
 <div class="d-flex justify-content-end">
 <?php inputComponent("search","","Search_bar","Search books","form-control text-muted w-10","text","","searchBook");
@@ -93,6 +95,17 @@ style="background-color: #48cae4;"
 type="submit" name="search"> <i class="fa fa-search"></i> </button>
 </div>
 </form>
+<!-- ____________For Requesting for books________________-->
+<form action="user_books.php" method="post">
+<div class="d-flex justify-content-end">
+<?php inputComponent("request","","request_bar","Enter book Id","form-control text-muted w-10","text","","requestBook");
+?>
+<button class="btn" 
+style="background-color: #48cae4;"
+type="submit" name="request"> Request </button>
+</div>
+</form>
+<!-- ____________Ending request________________-->
 <h2 class="display-4 books-heading">List Of Books</h2>
 <?php 
 if(isset($_POST["search"])){
@@ -126,7 +139,7 @@ if(isset($_POST["search"])){
 
 }else{
   $res = mysqli_query($con,"SELECT * FROM books ORDER BY book_id DESC");
-  echo"<table class='table table-bordered table-hover'";
+echo"<table class='table table-bordered table-hover'";
 echo"<tr>";
 echo"<th style='background-color:#48cae4'>"; echo"ID";echo"</th>";
 echo"<th style='background-color:#48cae4'>"; echo"Books";echo"</th>";
@@ -146,6 +159,7 @@ while($row = mysqli_fetch_assoc($res)){
     echo"<td>"; echo $row['department'];echo"</td>";echo"</tr>";
     }
   echo"</table>";
+  
 }
 
 ?>
@@ -165,10 +179,34 @@ function closeNav() {
   document.getElementById("main").style.marginLeft= "0";
 }
 </script>
+<!-- ____________Ending code for  side navBar ________________-->
 
 
 
-
+<?php
+if(isset($_POST["request"])){
+$z = array();
+  $REQUESTS = $_POST["requestBook"];
+  $sql = "SELECT book_id FROM books";
+  $rest = mysqli_query($con,$sql);
+  while($row = mysqli_fetch_assoc($rest)){
+    $z[] = $row["book_id"];
+  }
+  if(in_array($REQUESTS,$z)){
+$inserts  ="INSERT INTO request_books VALUES('$REQUESTS','$_SESSION[login_user]','','','')";
+mysqli_query($con,$inserts);
+?>
+<script>alert("Book is requested");
+// window.location="./issue_info.php";
+</script>
+  <?php 
+  }else{
+    ?>
+<script>alert("Please enter valid book Id");</script>
+  <?php
+  }
+}
+?>
 
 
 

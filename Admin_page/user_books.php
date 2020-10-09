@@ -72,8 +72,8 @@ require_once "../User_page/connection.php";
    style="height:100px;
  border-radius:50%;width:100px;margin-left:30px;"><p class="lead ml-5 text-white"><?php echo $_SESSION["login_user"];?></p></a>
   <a class="sideNav p-3 mt-5" href="./add_books.php">Add books</a>
-  <a class="sideNav p-3 " href="#">Delete books</a>
-  <a class="sideNav p-3 " href="#">notification</a>
+  <a class="sideNav p-3 " href="./book_request.php">Book Request</a>
+  <a class="sideNav p-3 " href="./book_issue.php">Book Issue</a>
   <a class="sideNav p-3 " href="#">sdt Mgs</a>
 </div>
 
@@ -83,15 +83,28 @@ require_once "../User_page/connection.php";
    onclick="openNav()">&#9776; </span>
   
 <!-- ____________Starting of books page________________-->
+<!-- ____________for searching button________________-->
 <div class="search-form" style="padding-top:15px;">
 <form action="user_books.php" method="post">
 <div class="d-flex justify-content-end">
-<?php inputComponent("search","","Search_bar","Search books","form-control text-muted w-10","text","","searchBook");
+<?php 
+inputComponent("search","","Search_bar","Search books","form-control text-muted w-10","text","","searchBook");
 ?>
 <button class="btn" 
 style="background-color: #48cae4;"
 type="submit" name="search"> <i class="fa fa-search"></i> </button>
 </div>
+<!-- ____________Ending of searchig button________________-->
+<!-- ____________Starting of delete button________________-->
+<div class="d-flex justify-content-end">
+<?php 
+inputComponent("deleteBooks","","delete_bar","Enter book ID","form-control text-muted w-10","number","","deleteBook");
+?>
+<button class="btn" 
+style="background-color: #48cae4;"
+type="submit" name="Delete"> <i class="fa fa-trash-alt"></i> </button>
+</div>
+<!-- ____________Ending of delete books btn________________-->
 </form>
 <h2 class="display-4 books-heading">List Of Books</h2>
 <?php 
@@ -168,9 +181,26 @@ function closeNav() {
 
 
 
-
-
-
+<?php
+if(isset($_POST["Delete"])){
+  $DELETEBOOKS = $_POST["deleteBook"];
+  $sql = "SELECT book_id FROM books";
+  $rest = mysqli_query($con,$sql);
+  while($row = mysqli_fetch_assoc($rest)){
+    $z[] = $row["book_id"];
+  }
+  if(in_array($DELETEBOOKS,$z)){
+    $q = mysqli_query($con,"DELETE FROM books WHERE book_id = '$DELETEBOOKS'")
+    ?>
+  <script>alert("Book deleted successfully");</script>
+  <?php
+  }else{
+    ?>
+   <script>alert("book with that id doesn't exist");</script>
+  <?php
+  }
+}
+?>
 
 
 

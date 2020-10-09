@@ -1,4 +1,23 @@
+else{
+      ?>
+      <script>
+      alert("Please fill all the fields");
+      </script>
+      <?php
+  }
+
+  $sql = "DELETE FROM books WHERE book_id = '$DELETEBOOKS'";
+  $result  = mysqli_query($con,$sql);
+  if(!$result){
+    ?>
+    <script>alert("Book not Deleted"+ <?php echo mysqli_error($con); ?> +);</script> 
+      <?php
+  } 
+  ?>
+<script>alert("Book Deleted Successfully");</script>
 <?php
+}
+
 $res = mysqli_query($con,"SELECT * FROM books ORDER BY book_id ASC");
 echo"<table class='table table-bordered table-hover'";
 echo"<tr>";

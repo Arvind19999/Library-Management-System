@@ -12,8 +12,11 @@ require_once "../User_page/connection.php";
     background-color:#e9efee;
     margin:-28px;
 }
+.container{
+  height:800px;
+}
 .updateContent{
-        height:550px;
+        height:750px;
         background-color:rgb(0 123 255 / 12%);
         width:65%;
         margin:auto;
@@ -115,11 +118,18 @@ require_once "../User_page/connection.php";
 <div class="updateContent m-auto">
 <h4 class="display-4 text-center text-white">Linrary Management System</h4>
 <p class="lead text-center text-white">Update Books</p>
-<form action="#" method="post">
+<form action="add_books.php" method="post">
+<div class = "d-felx flex-row">
 <?php 
-inputComponent("name","userName","userNames","Enter your user name","form-control pl-4","text","fa fa-user","userName");
-
-buttonComponent("btn btn-outline-dark","width:100%;border-radius:20px;","submit","update-password","Update","Change Password");
+// dataBase();
+inputComponent("book_id","Book ID","book-id","Enter book id ","form-control","number","","book-id");
+inputComponent("bookName","Book Name","bookName-id","Enter bookname","form-control","text","","bookName");
+inputComponent("authorName","Author Name","authorName-id","Enter authorname","form-control","text","","authorName");
+inputComponent("edition","Edition","edition-id","Enter book edition","form-control","text","","bookEdition");
+inputComponent("bookStatus","Book Status","bookStatus-id","Enter book status","form-control","text","","bookStatus");
+inputComponent("quantity","Quantity","quantity-id","Enter book quantitiy","form-control","text","","bookQuantity");
+inputComponent("department","Department","department-id","Enter department name","form-control","text","","departmentName");
+buttonComponent("btn btn-outline-dark","width:100%;border-radius:20px;","submit","Add-book","addBook-id","Add Book");
 ?>
 </form>
 </div>
@@ -143,13 +153,40 @@ function closeNav() {
 }
 </script>
 
+<?php
+if(isset($_POST["Add-book"])){
+  echo"The button is clicked";
+  $ID          = $_POST["book-id"];
+  $BOOKNAME    = $_POST["bookName"];
+  $AUTHORNAME  = $_POST["authorName"];
+  $EDITION     = $_POST["bookEdition"];
+  $BOOKSTATUS  = $_POST["bookStatus"];
+  $QUANTITY    = $_POST["bookQuantity"];
+  $DEPARTMENT  = $_POST["departmentName"];
+ 
+  
+    // Inserting data in table
+if(!empty($ID) && !empty($BOOKNAME) && !empty($AUTHORNAME) && !empty($EDITION) && !empty($BOOKSTATUS) && !empty($QUANTITY) && !empty($DEPARTMENT)){
+    $sql = "INSERT INTO books (bookName, authorName, editions, bookStatus, quantity, department, book_id)
+    VALUES ('$BOOKNAME','$AUTHORNAME','$EDITION','$BOOKSTATUS','$QUANTITY','$DEPARTMENT','$ID')";
+        if(mysqli_query($con,$sql)){ ?>
 
+          <script>alert("Book Added Sussessfully");</script>
+        <?php
+        }
+        else {
+          ?>
+          <script>alert("Error in Book addition");</script>
+        <?php
+        }
+  }
+else{ ?>
+      <script>alert("Fill Up All the Fields");</script>
+    <?php
+    }              
+  }
 
-
-
-
-
-
+?>
 
 
 
