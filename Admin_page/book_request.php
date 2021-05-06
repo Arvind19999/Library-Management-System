@@ -3,12 +3,24 @@ require_once "./header.php";
 require_once "../components.php";
 require_once "../User_page/connection.php";
 ?>
-<!-- ______________Stying for side navbar______________________-->
-<style>
-/* body {
-  font-family: "Lato", sans-serif;
-} */
 
+<style>
+.requested-content .form-control{
+  width:30%;
+  background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));
+  color:white;
+}
+.form-position{
+  position:relative;
+  left:65rem;
+}
+.requested-content .btn{
+  width:30%;
+  margin:10px 0px;
+  border-radius:20px;
+  color:white;
+}
+/* <!-- ______________Stying for side navbar______________________--> */
 .sidenav {
   height: 100%;
   margin-top:78px;
@@ -36,8 +48,7 @@ require_once "../User_page/connection.php";
 .sideNav:hover {
   color: black;
   background-color:#48cae4;
-;
-  back
+
 }
 
 .sidenav .closebtn {
@@ -51,6 +62,14 @@ require_once "../User_page/connection.php";
 #main {
   transition: margin-left .5s;
   padding: 16px;
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));
+  height:100vh;
+}
+tr{
+  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5));  color:white;
+}
+th{
+  color:black;
 }
 .sideNav{
   text-transform: uppercase;
@@ -72,10 +91,11 @@ require_once "../User_page/connection.php";
    <img src="../images/profile_pic.png" alt="My_profile"
    style="height:100px;
  border-radius:50%;width:100px;margin-left:30px;"><p class="lead ml-5 text-white"><?php echo $_SESSION["login_user"];?></p></a>
-  <a class="sideNav p-3 mt-5" href="#">Books</a>
+ <a class="sideNav p-3 mt-5" href="./add_books.php">Add books</a>
   <a class="sideNav p-3 " href="./book_request.php">Book Request</a>
-  <a class="sideNav p-3 " href="./issue_info.php">issue information</a>
-  <a class="sideNav p-3 " href="#">Fines</a>
+  <a class="sideNav p-3 " href="./request_status.php">Request Status</a>
+  <a class="sideNav p-3 " href="./issue_info.php">Book Issue info</a>
+  <a class="sideNav p-3 " href="./expired.php">Expired Lists</a>
 </div>
 
 <div id="main">
@@ -84,8 +104,8 @@ require_once "../User_page/connection.php";
    onclick="openNav()">&#9776; </span>
   
 <!-- ____________Starting of books page________________-->
-<div class="search-form" style="padding-top:15px;">
-<h2 class="display-4 books-heading">List Of Requested Books</h2>
+<div class="requested-content" style="padding-top:15px;">
+<h2 class="display-4 books-heading text-center">List Of Books.</h2>
 <?php 
 if(isset($_SESSION["login_user"])){
     /*___________________Sql query for joining two tables student table and book table_____________________ */

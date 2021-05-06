@@ -16,7 +16,7 @@ require_once "../User_page/connection.php";
   height:800px;
 }
 .updateContent{
-        height:750px;
+        height:550px;
         background-color:rgb(0 123 255 / 12%);
         width:65%;
         margin:auto;
@@ -25,11 +25,7 @@ require_once "../User_page/connection.php";
     .updateContent .form-control{
         width:100%;
     }
-    .fa{
-  position: relative;
-  top:-30px;
-  left:10px;
-}
+ 
 .form-group{
     margin-left:150px;
     margin-right:150px;
@@ -99,7 +95,7 @@ require_once "../User_page/connection.php";
    <img src="../images/profile_pic.png" alt="My_profile"
    style="height:100px;
  border-radius:50%;width:100px;margin-left:30px;"><p class="lead ml-5 text-white"><?php echo $_SESSION["login_user"];?></p></a>
-<a class="sideNav p-3 mt-5" href="./add_books.php">Add books</a>
+ <a class="sideNav p-3 mt-5" href="./add_books.php">Add books</a>
   <a class="sideNav p-3 " href="./book_request.php">Book Request</a>
   <a class="sideNav p-3 " href="./request_status.php">Request Status</a>
   <a class="sideNav p-3 " href="./issue_info.php">Book Issue info</a>
@@ -118,21 +114,76 @@ require_once "../User_page/connection.php";
 <div class="container">
 <div class="updateContent m-auto">
 <h4 class="display-4 text-center text-white">Linrary Management System</h4>
-<p class="lead text-center text-white">Update Books</p>
-<form action="add_books.php" method="post">
-<div class = "d-felx flex-row">
+<p class="lead text-center text-white">Book Approval Form</p>
+<form action="./request_status.php" method="post">
+<div cleass = "d-felx flex-row">
 <?php 
 // dataBase();
 inputComponent("book_id","Book ID","book-id","Enter book id ","form-control","number","","book-id");
-inputComponent("bookName","Book Name","bookName-id","Enter bookname","form-control","text","","bookName");
-inputComponent("authorName","Author Name","authorName-id","Enter authorname","form-control","text","","authorName");
-inputComponent("edition","Edition","edition-id","Enter book edition","form-control","text","","bookEdition");
-inputComponent("bookStatus","Book Status","bookStatus-id","Enter book status","form-control","text","","bookStatus");
-inputComponent("quantity","Quantity","quantity-id","Enter book quantitiy","form-control","text","","bookQuantity");
-inputComponent("department","Department","department-id","Enter department name","form-control","text","","departmentName");
-buttonComponent("btn btn-outline-dark","width:100%;border-radius:20px;","submit","Add-book","addBook-id","Add Book");
+inputComponent("userName","userName","user-id","Enter userName","form-control","text","","userName");
+inputComponent("approveStatus","Approve","approve-id","Yes or No","form-control","text","","approveStatus");
+inputComponent("issueDate","issueDate","issueDate-id","Enter issueDate","form-control","text","","issueDate");
+inputComponent("returnDate","returnDate","returnDate-id","Enter returnDate","form-control","text","","returnDate");
+buttonComponent("btn btn-outline-dark","width:100%;border-radius:20px;","submit","approve-status","addBook-id","Submit");
 ?>
 </form>
+<?php
+if(isset($_POST["approve-status"])){
+  $ID          = $_POST["book-id"];
+  $USERNAME    = $_POST["userName"];
+  $APPROVESTATUS  = $_POST["approveStatus"];
+  $ISSUEDATE     = $_POST["issueDate"];
+  $RETURNDATE  = $_POST["returnDate"];
+// $sql = "UPDATE request_books SET approve = '$APPROVESTATUS',issueDate = '$ISSUEDATE',returnDate = '$RETURNDATE' 
+// WHERE bookId = '$ID' AND userName = '$USERNAME'";
+
+// $z = "SELECT approve FROM request_books WHERE bookId = '$ID' AND userName = '$USERNAME'";
+// $res = mysqli_query($con,$z);
+if($APPROVESTATUS == "Yes"){
+  $sql = "UPDATE request_books SET approve = '$APPROVESTATUS',issueDate = '$ISSUEDATE',returnDate = '$RETURNDATE' 
+WHERE bookId = '$ID' AND userName = '$USERNAME'";
+mysqli_query($con,$sql);
+  $q ="UPDATE books SET quantity = quantity-1  WHERE book_id = '$ID'";
+  mysqli_query($con,$q);
+
+  $t = "SELECT quantity FROM books WHERE book_id ='$ID'";
+$res=   mysqli_query($con,$t);
+while($row = mysqli_fetch_assoc($res)){
+if($row["quantity"] == 0){
+  $ql ="UPDATE books SET bookStatus = 'not Available'  WHERE book_id = '$ID'";
+  mysqli_query($con,$ql);
+}
+}
+?>
+  <script>alert("Book Approval Message is sent");</script>
+<?php
+}else if($APPROVESTATUS == "No"){
+  $sql = "UPDATE request_books SET approve = '$APPROVESTATUS',issueDate = '$ISSUEDATE',returnDate = '$RETURNDATE' 
+WHERE bookId = '$ID' AND userName = '$USERNAME'";
+  mysqli_query($con,$sql);
+  $q ="UPDATE books SET quantity = quantity  WHERE book_id = '$ID'";
+  mysqli_query($con,$q);
+  ?>
+<script>alert("Book is not approved");</script>
+<?php
+}else{
+  ?>
+ <script>alert("Fill the data correctly");</script>
+<?php
+}
+// echo mysqli_num_rows($res);
+// $arr = array();
+// while($row = mysqli_fetch_assoc($res)){
+// $arr[]  = $row["approve"];
+// }
+// if(in_array("Yes",$arr)){
+//   echo"appropval is  sent";
+// }else{
+//   echo"Applroval is not sent";
+// }
+
+}
+?>
 </div>
 </div>
 </div>
@@ -153,43 +204,3 @@ function closeNav() {
   document.getElementById("main").style.marginLeft= "0";
 }
 </script>
-
-<?php
-if(isset($_POST["Add-book"])){
-  echo"The button is clicked";
-  $ID          = $_POST["book-id"];
-  $BOOKNAME    = $_POST["bookName"];
-  $AUTHORNAME  = $_POST["authorName"];
-  $EDITION     = $_POST["bookEdition"];
-  $BOOKSTATUS  = $_POST["bookStatus"];
-  $QUANTITY    = $_POST["bookQuantity"];
-  $DEPARTMENT  = $_POST["departmentName"];
- 
-  
-    // Inserting data in table
-if(!empty($ID) && !empty($BOOKNAME) && !empty($AUTHORNAME) && !empty($EDITION) && !empty($BOOKSTATUS) && !empty($QUANTITY) && !empty($DEPARTMENT)){
-    $sql = "INSERT INTO books (bookName, authorName, editions, bookStatus, quantity, department, book_id)
-    VALUES ('$BOOKNAME','$AUTHORNAME','$EDITION','$BOOKSTATUS','$QUANTITY','$DEPARTMENT','$ID')";
-        if(mysqli_query($con,$sql)){ ?>
-
-          <script>alert("Book Added Sussessfully");</script>
-        <?php
-        }
-        else {
-          ?>
-          <script>alert("Error in Book addition");</script>
-        <?php
-        }
-  }
-else{ ?>
-      <script>alert("Fill Up All the Fields");</script>
-    <?php
-    }              
-  }
-
-?>
-
-
-
-
-

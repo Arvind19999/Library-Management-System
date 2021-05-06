@@ -1,6 +1,5 @@
-
 <?php
-$page = 'feedback';
+$page='home';
 require_once "./header.php";
 require_once "../components.php";
 require_once "../User_page/connection.php";
@@ -8,6 +7,31 @@ require_once "../User_page/connection.php";
 <style>
 #activess{
   font-weight:800;
+}
+.fa-book{
+  font-size:80px;
+  padding:15px;
+  margin:15px;
+}
+.fa-user{
+  font-size:80px;
+  padding:15px;
+  margin:15px;
+}
+.fa-users{
+  font-size:80px;
+  padding:15px;
+  margin:15px;
+}
+.borders{
+  border:3px black solid;
+  border-radius:10px;
+}
+.fine{
+  font-size:80px;
+  padding:15px;
+  margin:15px;
+  /* font-weight:bold; */
 }
 /*___________________________ Strating of side navBar styling ________________________*/
 .sidenav {
@@ -37,8 +61,6 @@ require_once "../User_page/connection.php";
 .sideNav:hover {
   color: black;
   background-color:#48cae4;
-;
- 
 }
 
 .sidenav .closebtn {
@@ -85,56 +107,58 @@ require_once "../User_page/connection.php";
   <span style="font-size:30px;cursor:pointer;margin-top:2rem;position:relative;top:25px;"
    onclick="openNav()">&#9776; </span>
   
-<!-- ____________Starting of books page________________-->
-<div class="feedback">
-<div class="feedback_content">
-<h3 class="mr-auto">You can have your feedback here....</h3>
-<div>
-    <form action="" method="post">
-<textarea name="comments" id="feedback" class="form-control mb-3" placeholder="Enter your feedback" cols="30" rows="3"></textarea>
-<?php buttonComponent("btn btn-info","","submit","submit_comment","comment_id","Submit");
-    ?>
-    </form>
-    <!-- div for providing srollbar to feedback data -->
-    <div class="scroll">   
-  <?php
-if(isset($_POST["submit_comment"])){
-    $COMMENTS = $_POST["comments"];
-    $sql = "INSERT INTO comments VALUES ('','$COMMENTS','$_SESSION[login_user]')";
-    if(mysqli_query($con,$sql)){
-     $q = "SELECT * FROM comments ORDER BY comment_id DESC";
-      $res = mysqli_query($con,$q);
-      while($row = mysqli_fetch_assoc($res)){
-        echo"<table class='table table-bordered feedback_table'>";
-        echo"<tr>";
-        echo"<td>"; echo $row['comment'].'     ~by:-'.$row['userName']; echo"<td>";
-        echo"</tr>";
-        echo"</table>";
-    }
-    }
- 
+<!-- ____________Starting of Home Page________________-->
+
+<div class="mt-5 container">
+<?php 
+$res1 = mysqli_query($con,"SELECT * from books");
+$result1 = 0;
+$sum1 = 0;
+while($row1 = mysqli_fetch_assoc($res1)){
+  $result1 = $row1["quantity"];
+  $sum1 += $result1; 
 }
-else{
-    $q = "SELECT * FROM comments ORDER BY comment_id DESC";
-    $res = mysqli_query($con,$q);
-    while($row = mysqli_fetch_assoc($res)){
-      echo"<table class='table table-bordered'>";
-      echo"<tr>";
-      echo"<td>"; echo $row['comment'].'     ~by:-'.$row['userName']; echo"<td>";
-      echo"</tr>";
-      echo"</table>";
-  }
-}
-    
 ?>
-  </div>
-<!-- ending of scroll div -->
-</div>
-</div>
+<i class="fa fa-book borders text-center"> <br> Books <span><br><?php echo $sum1;?></span> </i>
+
+<?php 
+$res2 = mysqli_query($con,"SELECT * from admin_signup");
+$result2 = 0;
+$sum2 = 0;
+while($row2 = mysqli_fetch_assoc($res2)){
+  $result2 = $row2["userName"];
+  $sum2 += 1;
+}
+?>
+<i class="fa fa-user borders text-center"> <br> Admins <span><br><?php echo $sum2;?></span> </i>
+
+
+<?php 
+$res3 = mysqli_query($con,"SELECT * from students");
+$result3 = 0;
+$sum3 = 0;
+while($row3 = mysqli_fetch_assoc($res3)){
+  $result3 = $row3["userName"];
+  $sum3 += 1;
+}
+?>
+<i class="fa fa-users borders text-center"> <br>Students <span><br><?php echo $sum3;?></span> </i>
+
+
+<?php 
+$res4 = mysqli_query($con,"SELECT * from fines");
+$result4 = 0;
+$sum4 = 0;
+while($row4 = mysqli_fetch_assoc($res4)){
+  $result4 = $row4["Fine"];
+  $sum4 += $result4;
+}
+?>
+<i class="fa fa-none borders fine text-center">Total Fines  <span><br><?php echo $sum4;?></span></i>
 </div>
 
 
-<!-- ____________Ending of books Page________________-->
+<!-- ____________Ending of Home Page________________-->
 
 </div>
 </div>
@@ -150,9 +174,6 @@ function closeNav() {
   document.getElementById("main").style.marginLeft= "0";
 }
 </script>
-
-
-
 
 
 

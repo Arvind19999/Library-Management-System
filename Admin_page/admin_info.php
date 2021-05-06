@@ -19,9 +19,11 @@ td{
 <div class=adminInfo>
 <div class="container updateProfile">
   <div class="d-flex justify-content-end">
-  <?php 
+<a href="./edit_info.php">
+<?php 
     buttonComponent("btn btn-info","","submit","Edit-btn","Edit","Edit Profile");
-    ?>
+?>
+</a>
   </div>
 <div class="imgSection">
  <img src="../images/profile_pic.png" alt="My_profile" style="margin-left:500px;height:100px;

@@ -31,29 +31,39 @@ style="border-bottom:3px blue solid;position:fixed; width:100%;">
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
    <?php
   //  session started
-   if(isset($_SESSION["login_user"])){?>
+   if(isset($_SESSION["login_user"])){
+    require_once "../User_page/connection.php";
+    $r = mysqli_query($con,"SELECT COUNT(statusss) as Total FROM messages WHERE statusss='no' AND sender ='student'");
+    $No_Of_Mgs = mysqli_fetch_assoc($r);
+     ?>
    <!-- for lest side navitems -->
    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">    
-   <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
-      <a class="nav-link" href="https://google.com">home</a>
+   <li class="nav-item px-3 my-1"  id="<?php if($page == 'home'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
+      <a class="nav-link" href="./home.php">home</a>
     </li>
-     <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+     <li class="nav-item px-3 my-1"  id="<?php if($page == 'books'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
       <a class="nav-link" href="./user_books.php">books</a>
     </li>
-    <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+    <li class="nav-item px-3 my-1"  id="<?php if($page == 'feedback'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
       <a class="nav-link" href="./feed_back.php">feedback</a>
     </li>
-    <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+    <li class="nav-item px-3 my-1"  id="<?php if($page == 'std_info'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
       <a class="nav-link" href="./student.php">student rec</a>
+    </li>
+    <li class="nav-item px-3 my-1"  id="<?php if($page == 'fines'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
+      <a class="nav-link" href="./fines.php">Fines</a>
     </li>
    </ul>
 <!-- for right side navitems -->
-<ul class="navbar-nav ml-auto mt-2 mt-lg-0">    
+<ul class="navbar-nav ml-auto mt-2 mt-lg-0"> 
+<li class="nav-item px-3 my-1"  id="<?php if($page == 'message'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
+         <a class="nav-link" href="./message.php"><span class="badge badge-light">
+         <i class="fa fa-bell fa-2x" aria-hidden="true">M</i><?php echo $No_Of_Mgs['Total'];?></span></a>
+       </li>   
    <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
    <a class="nav-link" href="./admin_info.php">
         <img src="../images/profile_pic.png" alt="profile picture"
-        style="height:35px;width:35px;border-radius:50%;padding:0px;margin:0px;"
-        >
+        style="height:35px;width:35px;border-radius:50%;border:3px black solid;padding:0px;margin:0px;">
         </a>
     </li>
      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
@@ -66,13 +76,13 @@ style="border-bottom:3px blue solid;position:fixed; width:100%;">
    }else{
      ?>
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">    
-     <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+     <li class="nav-item px-3 my-1"  id="<?php if($page == 'adminLogin'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
         <a class="nav-link" href="#">Admin Login</a>
       </li>
-       <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+       <li class="nav-item px-3 my-1"  id="<?php if($page == 'userLogin'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
         <a class="nav-link" href="../User_page/user_logIn.php">User LogIn</a>
       </li>
-      <li class="nav-item px-3 my-1" style="font-size:1.1rem; text-transform: uppercase;">
+      <li class="nav-item px-3 my-1"  id="<?php if($page == 'userSignup'){echo 'activess';}?>" style="font-size:1.1rem; text-transform: uppercase;">
         <a class="nav-link" href="../User_page/User_signUp.php">User SignUp</a>
       </li>
 
