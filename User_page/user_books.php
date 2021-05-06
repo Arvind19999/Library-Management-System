@@ -1,13 +1,14 @@
 <?php
+$page = 'books';
 require_once "./header.php";
 require_once "../components.php";
 require_once "./connection.php";
 ?>
 <!-- ______________Stying for side navbar______________________-->
 <style>
-/* body {
-  font-family: "Lato", sans-serif;
-} */
+#activess{
+    font-weight:800;
+ }
 
 .sidenav {
   height: 100%;
@@ -72,9 +73,9 @@ require_once "./connection.php";
    <img src="../images/profile_pic.png" alt="My_profile"
    style="height:100px;
  border-radius:50%;width:100px;margin-left:30px;"><p class="lead ml-5 text-white"><?php echo $_SESSION["login_user"];?></p></a>
-  <a class="sideNav p-3 mt-5" href="#">Books</a>
+  <a class="sideNav p-3 mt-5" href="./user_books.php">Books</a>
   <a class="sideNav p-3 " href="./book_request.php">Book Request</a>
-  <a class="sideNav p-3 " href="./issue_info.php">issue information</a>
+  <a class="sideNav p-3 " href="./expired.php">Expired</a>
   <a class="sideNav p-3 " href="#">Fines</a>
 </div>
 

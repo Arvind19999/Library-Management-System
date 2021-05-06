@@ -1,10 +1,17 @@
 <?php
+$page = 'std_info';
 require_once "./header.php";
 require_once "../components.php";
 require_once "./connection.php";
 ?>
+
 <style>
-    .stdInfo{
+
+#activess{
+    font-weight:800;
+ }
+
+.stdInfo{
         background-color:#0b5d1e;
         height:100vh;padding-top:140px;
     }
@@ -19,9 +26,10 @@ td{
 <div class=stdInfo>
 <div class="container updateProfile">
   <div class="d-flex justify-content-end">
+  <a href="./edit_info.php">
   <?php 
     buttonComponent("btn btn-info","","submit","Edit-btn","Edit","Edit Profile");
-    ?>
+    ?> </a>
   </div>
 <div class="imgSection">
  <img src="../images/profile_pic.png" alt="My_profile" style="margin-left:500px;height:100px;
@@ -54,17 +62,19 @@ while($row = mysqli_fetch_assoc($res)){?>
        <td><?php echo $row["phoneNo"];?></td>
    </tr>
    <tr>
-   <td style="font-weight:bolder;">Email</td>
-       <td><?php echo $row["email"];?></td>
-   </tr>
-   <tr>
-   <td style="font-weight:bolder;">Password</td>
-       <td><?php echo $row["passwords"];?></td>
-   </tr>
-   </table>
+   <td style="font-weight:bolder;">Email 
+</td>
+<td><?php echo $row["email"];?></td>
+</tr>
+<tr>
+<td style="font-weight:bolder;">Password</td>
+<td><?php echo $row["passwords"];?></td>
+</tr>
+</table>
 <?php
 }
 ?>
+
 </div>
 </div> <!--endig ob update profile section -->
 </div>
